@@ -1,0 +1,172 @@
+﻿@model Teste.Models.Cliente
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Editar</h1>
+
+<h4>Cliente</h4>
+<hr />
+<div class="row">
+    <div class="col-12">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <div class="offset-3 col-6 text-center">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="Tipo" id="rbPF" onclick="Habilitar('PF');" readonly checked>
+                        <label class="form-check-label" for="rbPF">
+                            Pessoa Física
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="Tipo" id="rbPJ" onclick="Habilitar('PJ');" readonly>
+                        <label class="form-check-label" for="rbPJ">
+                            Pessoa Jurídica
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div id="PF">
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="CPF" class="control-label"></label>
+                        <input asp-for="CPF" id="CPF" class="form-control" placeholder="000.000.000-00" maxlength="14" onblur="TestaCPF(this.value);" required />
+                        <span asp-validation-for="CPF" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-5">
+                        <label asp-for="Nome" class="control-label"></label>
+                        <input asp-for="Nome" class="form-control" type="text" required />
+                        <span asp-validation-for="Nome" class="text-danger"></span>
+                    </div>
+                    <div class="col-4">
+                        <label asp-for="Sobrenome" class="control-label"></label>
+                        <input asp-for="Sobrenome" class="form-control" type="text" maxlength="15" required />
+                        <span asp-validation-for="Sobrenome" class="text-danger"></span>
+                    </div>
+                    <div class="col-3">
+                        <label asp-for="DtNasc" class="control-label">Data de Nascimento</label>
+                        <input asp-for="DtNasc" class="form-control" type="date" max="2000/01/01" maxlength="10" required />
+                        <span asp-validation-for="DtNasc" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div id="PJ" hidden>
+                <div class="form-group row">
+                    <div class="col-5">
+                        <label asp-for="CNPJ" class="control-label"></label>
+                        <input asp-for="CNPJ" class="form-control" placeholder="00.000.000/0000-00" maxlength="18" onblur="validarCNPJ(this.value);" required />
+                        <span asp-validation-for="CNPJ" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-12">
+                        <label asp-for="RazSoc" class="control-label">Razão Social</label>
+                        <input asp-for="RazSoc" class="form-control" required />
+                        <span asp-validation-for="RazSoc" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-12">
+                        <label asp-for="NomeFantasia" class="control-label">Nome Fantasia</label>
+                        <input asp-for="NomeFantasia" class="form-control" required />
+                        <span asp-validation-for="NomeFantasia" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="CEP" class="control-label"></label>
+                    <input asp-for="CEP" class="form-control" placeholder="00000-000" maxlength="9" onblur="pesquisacepn(this.value);" required />
+                    <span asp-validation-for="CEP" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-9">
+                    <label asp-for="Logradouro" class="control-label"></label>
+                    <input asp-for="Logradouro" class="form-control" required />
+                    <span asp-validation-for="Logradouro" class="text-danger"></span>
+                </div>
+                <div class="col-3">
+                    <label asp-for="Numero" class="control-label"></label>
+                    <input asp-for="Numero" class="form-control" maxlength="5" required />
+                    <span asp-validation-for="Numero" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-12">
+                    <label asp-for="Completemento" class="control-label"></label>
+                    <input asp-for="Completemento" class="form-control" />
+                    <span asp-validation-for="Completemento" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-6">
+                    <label asp-for="Bairro" class="control-label"></label>
+                    <input asp-for="Bairro" class="form-control" required />
+                    <span asp-validation-for="Bairro" class="text-danger"></span>
+                </div>
+                <div class="col-4">
+                    <label asp-for="Cidade" class="control-label"></label>
+                    <input asp-for="Cidade" class="form-control" required />
+                    <span asp-validation-for="Cidade" class="text-danger"></span>
+                </div>
+                <div class="col-2">
+                    <label asp-for="UF" class="control-label"></label>
+                    <input asp-for="UF" class="form-control" maxlength="2" type="text" required />
+                    <span asp-validation-for="UF" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="offset-4 col-4">
+                    <input type="submit" value="Salvar" class="btn btn-success btn-block rounded" />
+                </div>
+                <div class="col-4">
+                    <a class="btn btn-danger btn-block rounded" asp-action="Index">Voltar a Lista</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function Habilitar(tipopessoa) {
+        if (tipopessoa == 'PJ') {
+            document.getElementById('CPF').value = ''
+            document.getElementById('Nome').value = ''
+            document.getElementById('Sobrenome').value = ''
+            document.getElementById('DtNasc').value = ''
+
+            document.getElementById('PF').hidden = true;
+            document.getElementById('PJ').hidden = false;
+        }
+        else {
+            document.getElementById('CNPJ').value = ''
+            document.getElementById('RazSoc').value = ''
+            document.getElementById('NomeFantasia').value = ''
+
+            document.getElementById('PF').hidden = false;
+            document.getElementById('PJ').hidden = true;
+        }
+    }
+
+    if (document.getElementById('CNPJ').value != '') {
+        document.getElementById('rbPF').checked = false;
+        document.getElementById('rbPJ').checked = true;
+
+        Habilitar('PJ');
+    }
+    else {
+        document.getElementById('rbPF').checked = true;
+        document.getElementById('rbPJ').checked = false;
+
+        Habilitar('PF');
+    }
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
